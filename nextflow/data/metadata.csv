@@ -1,0 +1,5 @@
+sample_id,group,file_1,file_2
+sample_1,A,./data/sample_1.pe_1.fastq.gz,./data/sample_1.pe_2.fastq.gz
+sample_2,A,./data/sample_2.pe_1.fastq.gz,./data/sample_2.pe_2.fastq.gz
+sample_3,B,./data/sample_3.pe_1.fastq.gz,./data/sample_3.pe_2.fastq.gz
+sample_4,B,./data/sample_4.pe_1.fastq.gz,./data/sample_4.pe_2.fastq.gz
