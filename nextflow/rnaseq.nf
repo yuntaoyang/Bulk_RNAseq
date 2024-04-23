@@ -1,9 +1,4 @@
 #!/usr/bin/env nextflow
-// Parameters
-params.metadata = "$projectDir/data/metadata.csv"
-params.genomeFile = "$projectDir/data/reference_genome.fasta.gz"
-params.gtfFile = "$projectDir/data/gene_annotation.gtf.gz"
-params.outdir = "$projectDir/output/"
 
 // TrimGalore process to remove adapter and quality control
 process TrimGalore {
@@ -23,7 +18,7 @@ process TrimGalore {
 
     script:
     """
-    trim_galore --fastqc --gzip --paired --basename ${sample_id} ${read1} ${read2}
+    trim_galore --fastqc --gzip --paired --basename ${sample_id} --cores ${task.cpus} ${read1} ${read2}
     """
 }
 
@@ -42,7 +37,7 @@ process StarIndex {
     """
     zcat $genome > reference_genome.fasta
     zcat $gtf > gene_annotation.gtf
-    STAR --runThreadN 16 \
+    STAR --runThreadN ${task.cpus} \
          --runMode genomeGenerate \
          --genomeDir star_index \
          --genomeFastaFiles reference_genome.fasta \
@@ -68,7 +63,7 @@ process StarAlign {
     """
     STAR --genomeDir $star_index \
          --readFilesIn ${read1} ${read2} \
-         --runThreadN 16 \
+         --runThreadN ${task.cpus} \
          --outSAMtype BAM SortedByCoordinate \
          --readFilesCommand zcat \
          --quantMode GeneCounts \
